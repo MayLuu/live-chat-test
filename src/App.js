@@ -1,24 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Suspense, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 function App() {
+  const { t, i18n, ready } = useTranslation();
+  const [currentLang, setCurrentLang] = useState('vi');
+  function handleTranslation(lang) {
+    i18n.changeLanguage(lang);
+  }
+
+  useEffect(() => {
+    function checkCurrentLanguage() {
+      switch (i18n.language) {
+        case 'en':
+          setCurrentLang('English')
+          break;
+        case 'chi':
+          setCurrentLang('Chinese')
+          break;
+        default:
+          setCurrentLang('Vietnamese')
+          break;
+      };
+    };
+    return () => {
+      checkCurrentLanguage();
+    };
+  }, [i18n.language]);
+
+  const listOfDishes = t('dishes', { returnObjects: true });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback="loading">
+      <button onClick={() => handleTranslation('vi')}>Vietnamese</button>
+      <button onClick={() => handleTranslation('en')}>English</button>
+      <button onClick={() => handleTranslation('chi')}>Chinese</button>
+      <h1>Current language: {currentLang}</h1>
+      <h3>{t('title')}</h3>
+      {/* with certain const use constant file such as discount or opening time=> NUMBER */}
+      <h3>{t('discounts.1', { returnObjects: true, something: "50" })}</h3>
+
+
+
+      <h4> {listOfDishes.map((dish) => (
+        <ul>- {dish}</ul>
+      ))}</h4>
+
+    </Suspense>
   );
 }
 

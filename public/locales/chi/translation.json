@@ -1,0 +1,11 @@
+{
+  "description": {
+    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+    "part2": "Switch language between english and german using buttons above."
+  },
+  "title": "你好",
+  "discounts": {
+    "1": "减少 {{something}}%"
+  },
+  "dishes": ["碟 1", "碟 2", "碟 3"]
+}
